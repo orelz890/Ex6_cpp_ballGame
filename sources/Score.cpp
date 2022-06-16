@@ -36,25 +36,19 @@ Score::Score(Leauge *l, Schedule* s)
                 // Create the current 2 teams game
                 std::pair<int,std::string> key;
                 std::pair<int, std::pair<int,std::string>> key2;
-                // std::string opponent = this->schedule->get_oponnent(round, j,i);
                 key = {i, home->get_name()};
                 key2 = {round, key};
                 int home_score = (int)(55 + rand()%45);
                 // Rand is not really random therefore change its pointer pos
                 srand(time(NULL));
                 int opponent_score = (int)(50 + rand()%50);
-                // std::cout << "home_score = " << home_score << " " << "opponent_score = " << opponent_score << '\n';
                 this->games_schedule[key2] = new Game(home, opponent, home_score, opponent_score);
                 
                 // Update the scores
                 Team* winningTeam = &(this->games_schedule.at(key2)->winning_team());
                 Team* lossingTeam = &(this->games_schedule.at(key2)->lossing_team());
-                // std::cout << "winningTeam wins = " << winningTeam->get_wins() << '\n';
                 winningTeam->inc_wins();
-                // std::cout << "winningTeam new wins = " << winningTeam->get_wins() << '\n';
-                // std::cout << "lossingTeam losses = " << lossingTeam->get_losses() << '\n';                
                 lossingTeam->inc_losses();
-                // std::cout << "lossingTeam new losses = " << lossingTeam->get_losses() << '\n';                
 
                 int curr_winning_team_wins_in_a_row = this->game_wins_losses[winningTeam->get_name()].first + 1;
                 this->game_wins_losses[winningTeam->get_name()] = {curr_winning_team_wins_in_a_row, 0};
@@ -118,6 +112,11 @@ bool compereElements(std::pair<std::string, double> e1, std::pair<std::string, d
 
 void Score::leading_teams(const int num)
 {
+    if (num < 0 || num >= TEAMS_SIZE)
+    {
+        throw "Score - Out of bounds!\n";
+    }
+    
     std::vector<std::pair<std::string, double>> preformance;
     for (int i = 0; i < TEAMS_SIZE; i++)
     {
@@ -155,7 +154,7 @@ void Score::wining_table()               // not finished
 }
 
 
-void basket_scores_minus_losses_table()
+void basket_scores_minus_losses_table()     // not finished!
 {
 
 }

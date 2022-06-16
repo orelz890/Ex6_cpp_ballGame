@@ -44,6 +44,10 @@ Leauge::~Leauge()
 
 Team& Leauge::operator[](int i)
 {
+    if (i < 0 || i >= TEAMS_SIZE)
+    {
+        throw "Leauge - Out of bounds!\n";
+    }
     return this->all_teams[i];
 }
 
@@ -69,5 +73,3 @@ std::string Leauge::generate_name()
     // printf("ans = %s\n",ans.c_str());
     return ans;
 }
-
-
