@@ -22,6 +22,9 @@ public:
     bool operator!=(const Team& other);
     bool operator>(const Team& other);
     bool operator<(const Team& other);
+    std::string& operator*();
+    friend std::ostream& operator<<(std::ostream& os , const Team& t);
+
 
     std::string get_name();
     int get_wins();
@@ -29,6 +32,7 @@ public:
     void inc_wins();
     void inc_losses();
     double get_skill_lvl();
+    double set_skill_lvl(double skill);
 
     double preformance_val();
 };

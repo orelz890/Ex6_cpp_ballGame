@@ -3,10 +3,11 @@
 
 Leauge::Leauge()
 {
+    this->current_size = 0;
     for(Team& t : this->all_teams)
     {
         std::string n = this->generate_name();
-        t = Team(n,rand()/RAND_MAX);
+        t = Team(n,rand()/(double)RAND_MAX);
         this->current_size++;
     }
 }
@@ -14,6 +15,7 @@ Leauge::Leauge()
 
 Leauge::Leauge(Team* teams, const int size)
 {
+    this->current_size = 0;
     for (int i = 0; i < TEAMS_SIZE; i++)
     {
         if (i < size)
@@ -23,7 +25,7 @@ Leauge::Leauge(Team* teams, const int size)
         else
         {
             std::string n = this->generate_name();
-            this->all_teams[i] = Team(n,rand()/RAND_MAX);
+            this->all_teams[i] = Team(n,rand()/(double)RAND_MAX);
             this->current_size++;
         }
     }
@@ -46,10 +48,26 @@ Team& Leauge::operator[](int i)
 }
 
 
+my_iterator<Leauge,Team> Leauge::begin()
+{
+    return my_iterator<Leauge,Team>{this};
+}
+
+
+my_iterator<Leauge,Team> Leauge::end()
+{
+    return my_iterator<Leauge,Team>{};
+}
+
+
 std::string Leauge::generate_name()
 {
     std::string ans;
-    ans += "Team";
-    ans+= this->current_size;
+    ans.clear();
+    ans += "Team_";
+    ans+= (this->current_size + 'A');
+    // printf("ans = %s\n",ans.c_str());
     return ans;
 }
+
+

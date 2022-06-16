@@ -3,10 +3,21 @@
 #include <iostream>
 #include "Score.hpp"
 
+
 Score::Score()
 {
-    this->leauge = new Leauge();
-    this->schedule = new Schedule(*leauge);
+    this->flag = true;
+    Leauge* l = new Leauge();
+    Schedule* s = new Schedule(leauge);
+    Score(l,s);
+}
+
+
+Score::Score(Leauge *l, Schedule* s)
+{
+    this->flag = false;
+    this->leauge = l;
+    this->schedule = s;
     this->longest_losses_series = 0;
     this->longest_wins_series = 0;
     for (int i = 0; i < TEAMS_SIZE; i++)
@@ -18,28 +29,41 @@ Score::Score()
     {    
         for (int i = 0; i < TEAMS_SIZE; i++)
         {
+            Team* home = &(*this->leauge)[i];
             for (int j = i + 1; j < TEAMS_SIZE; j++)
             {
+                Team* opponent = &(*this->leauge)[j];
                 // Create the current 2 teams game
                 std::pair<int,std::string> key;
                 std::pair<int, std::pair<int,std::string>> key2;
-                key = {i, this->schedule->get_oponnent(round, i,j)};
-                key2 = {0, key};
-                this->games_schedule.at(key2) = new Game(&((*this->leauge)[i]), &((*this->leauge)[j]), (int)(55 + rand()%45), (int)(50 + rand()%50));
+                // std::string opponent = this->schedule->get_oponnent(round, j,i);
+                key = {i, home->get_name()};
+                key2 = {round, key};
+                int home_score = (int)(55 + rand()%45);
+                // Rand is not really random therefore change its pointer pos
+                srand(time(NULL));
+                int opponent_score = (int)(50 + rand()%50);
+                // std::cout << "home_score = " << home_score << " " << "opponent_score = " << opponent_score << '\n';
+                this->games_schedule[key2] = new Game(home, opponent, home_score, opponent_score);
                 
                 // Update the scores
                 Team* winningTeam = &(this->games_schedule.at(key2)->winning_team());
                 Team* lossingTeam = &(this->games_schedule.at(key2)->lossing_team());
+                // std::cout << "winningTeam wins = " << winningTeam->get_wins() << '\n';
                 winningTeam->inc_wins();
+                // std::cout << "winningTeam new wins = " << winningTeam->get_wins() << '\n';
+                // std::cout << "lossingTeam losses = " << lossingTeam->get_losses() << '\n';                
                 lossingTeam->inc_losses();
-                int current_winning_team_wins = this->game_wins_losses[winningTeam->get_name()].first + 1;
-                this->game_wins_losses[winningTeam->get_name()] = {current_winning_team_wins, 0};
-                if (current_winning_team_wins > this->longest_wins_series)
+                // std::cout << "lossingTeam new losses = " << lossingTeam->get_losses() << '\n';                
+
+                int curr_winning_team_wins_in_a_row = this->game_wins_losses[winningTeam->get_name()].first + 1;
+                this->game_wins_losses[winningTeam->get_name()] = {curr_winning_team_wins_in_a_row, 0};
+                if (curr_winning_team_wins_in_a_row > this->longest_wins_series)
                 {
-                    this->longest_wins_series = current_winning_team_wins;
+                    this->longest_wins_series = curr_winning_team_wins_in_a_row;
                 }
-                int current_lossing_team_losses = this->game_wins_losses[winningTeam->get_name()].second + 1;
-                this->game_wins_losses[winningTeam->get_name()] = {0, current_lossing_team_losses};
+                int current_lossing_team_losses = this->game_wins_losses[lossingTeam->get_name()].second + 1;
+                this->game_wins_losses[lossingTeam->get_name()] = {0, current_lossing_team_losses};
                 if (current_lossing_team_losses > this->longest_losses_series)
                 {
                     this->longest_losses_series = current_lossing_team_losses;
@@ -52,8 +76,11 @@ Score::Score()
 
 Score::~Score()
 {
-    delete this->leauge;
-    delete this->schedule;
+    if (this->flag)
+    {
+        delete this->leauge;
+        delete this->schedule;
+    }
 }
 
 
@@ -128,5 +155,7 @@ void Score::wining_table()               // not finished
 }
 
 
-void basket_scores_minus_losses_table();
+void basket_scores_minus_losses_table()
+{
 
+}

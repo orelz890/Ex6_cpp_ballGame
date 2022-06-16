@@ -78,6 +78,12 @@ bool Team::operator<(const Team& other)
 }
 
 
+std::string& Team::operator*()
+{
+    return this->name;
+}
+
+
 std::string Team::get_name()
 {
     return this->name;
@@ -90,7 +96,21 @@ double Team::get_skill_lvl()
 }
 
 
+double Team::set_skill_lvl(double skill)
+{
+    this->skill_level = skill;
+    return skill;
+}
+
+
 double Team::preformance_val()
 {
     return this->wins/(this->losses + this->wins);
+}
+
+
+std::ostream& operator<<(std::ostream& os , const Team& t)
+{
+    os << t.name;
+    return os;
 }

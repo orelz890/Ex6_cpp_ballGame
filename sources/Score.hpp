@@ -14,9 +14,11 @@ private:
     std::map<std::string, std::pair<int, int>> game_wins_losses;
     int longest_wins_series;
     int longest_losses_series;
+    bool flag;
 
 public:
     Score();
+    Score(Leauge *l, Schedule* s);
     ~Score();
 
     int longest_wins_in_a_row();
