@@ -1,13 +1,12 @@
-
+#pragma once
 #include "Team.hpp"
-
-const int TEAMS_SIZE = 20;
 
 class Leauge
 {
 private:
     Team all_teams[TEAMS_SIZE];
     int current_size;
+
 public:
     std::string generate_name();
 

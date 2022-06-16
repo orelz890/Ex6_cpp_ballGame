@@ -1,23 +1,22 @@
 #include "Schedule.hpp"
 
-const int ROUNDS_NUM = 2;
 
 Schedule::Schedule(Leauge& l)
 {
-    for (int round = 0; round < ROUNDS_NUM; round++)
-    {    
-        for (int i = 0; i < TEAMS_SIZE; i++)
+    this->leauge = &l;
+    for (int i = 0; i < TEAMS_SIZE; i++)
+    {
+        std::string home = l[i].get_name();
+        for (int j = i + 1; j < TEAMS_SIZE; j++)
         {
             std::pair<int,std::string> key;
-            if (round == 0)
-            {
-                key = {round, l[i].get_name()};
-            }
-            else
-            {
-                key = {round, l[i].get_name()};                    
-            }
-            
+            std::pair<int, std::pair<int,std::string>> key2;
+            key = {i, home};
+            key2 = {0, key};
+            this->games_schedule.at(key2) = l[j].get_name();
+            key = {i, l[j].get_name()};
+            key2 = {1, key};
+            this->games_schedule.at(key2) = home;
         }
     }
 
@@ -29,8 +28,15 @@ Schedule::~Schedule()
 }
 
 
-std::string Schedule::get_oponnent(int round , std::string& team)
+Leauge* Schedule::get_leauge()
 {
-    std::pair<int,std::string> key = {round,team};
-    return this->games_schedule.at(key);
+    return this->leauge;
+}
+
+
+std::string Schedule::get_oponnent(int round, int game, int team)
+{
+    std::pair<int,std::string> key = {game, (*this->leauge)[team].get_name()};
+    std::pair<int, std::pair<int,std::string>> key2 = {round, key};
+    return this->games_schedule.at(key2);
 }

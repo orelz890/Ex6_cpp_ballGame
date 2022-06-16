@@ -49,6 +49,7 @@ Team& Leauge::operator[](int i)
 std::string Leauge::generate_name()
 {
     std::string ans;
-    ans += ("Team" + this->current_size);
+    ans += "Team";
+    ans+= this->current_size;
     return ans;
 }

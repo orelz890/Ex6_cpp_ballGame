@@ -1,4 +1,4 @@
-
+#pragma once
 #include "Team.hpp"
 
 class Game
@@ -10,8 +10,10 @@ private:
     int other_team_score;
 
 public:
-    Game(Team& t1, Team& other,int home_score, int other_score);
+    Game();
+    Game(Team* t1, Team* other,int home_score, int other_score);
     ~Game();
 
     Team& winning_team();
+    Team& lossing_team();
 };
