@@ -143,7 +143,7 @@ int Score::teams_with_more_wins() const
 }
 
 
-bool compereElements(std::pair<std::string, double> e1, std::pair<std::string, double> e2)
+bool compereElements(std::pair<std::string, double>& e1, std::pair<std::string, double>& e2)
 {
     return e1.second < e2.second;
 }
@@ -187,12 +187,12 @@ void Score::wining_table()
     }
     longest_name++;
     
-    std::cout << "\n  name" << std::string(abs(longest_name - 4) , ' ') << "| wins - losses\n";
+    std::cout << "\n  name" << std::string((unsigned long)abs(longest_name - 4) , ' ') << "| wins - losses\n";
 
     for (std::pair<std::string,std::pair<int,int>> a : this->game_wins_losses)
     {
         int curr_name_len = a.first.length();
-        std::cout << "| " << a.first << std::string(longest_name - curr_name_len , ' ') <<  "| "
+        std::cout << "| " << a.first << std::string((unsigned long)(longest_name - curr_name_len) , ' ') <<  "| "
             << a.second.first - a.second.second << "\n";
     }
 }
@@ -213,12 +213,12 @@ void Score::basket_scores_minus_losses_table()
     }
     longest_name++;
         
-    std::cout << "\n  name" << std::string(abs(longest_name - 4) , ' ') << "| scored - lost\n";
+    std::cout << "\n  name" << std::string((unsigned long)abs(longest_name - 4) , ' ') << "| scored - lost\n";
 
     for (std::pair<std::string,std::pair<int,int>> a : this->team_scores_lost)
     {
         int curr_name_len = a.first.length();
-        std::cout << "| " << a.first << std::string(longest_name - curr_name_len , ' ') <<  "| "
+        std::cout << "| " << a.first << std::string((unsigned long)(longest_name - curr_name_len) , ' ') <<  "| "
             << a.second.first - a.second.second << "\n";
     }    
 }

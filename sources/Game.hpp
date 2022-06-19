@@ -16,7 +16,7 @@ public:
     ~Game();
     Game(Game&& other) noexcept;
 
-    Game& operator=(const Game& other);
+    Game& operator=(const Game& g);
     Game& operator=(Game&& other) noexcept;
     Team& winning_team();
     Team& lossing_team();

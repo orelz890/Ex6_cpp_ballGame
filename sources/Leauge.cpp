@@ -13,7 +13,7 @@ Leauge::Leauge()
 }
 
 
-Leauge::Leauge(Team* teams, const int size)
+Leauge::Leauge(Team teams[TEAMS_SIZE], const int size)
 {
     this->current_size = 0;
     for (int i = 0; i < TEAMS_SIZE; i++)
@@ -32,7 +32,7 @@ Leauge::Leauge(Team* teams, const int size)
 }
 
 
-Leauge::Leauge(Team* teams) : Leauge(teams, TEAMS_SIZE) 
+Leauge::Leauge(Team teams[TEAMS_SIZE]) : Leauge(teams, TEAMS_SIZE) 
 {
 }
 

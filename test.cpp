@@ -23,15 +23,14 @@ TEST_CASE("Good tests"){
     * Init check
     * ============*/
     Leauge* leauge = new Leauge();
-    Team* team;
+    // Team* team;
     std::vector<std::string> names;
-    for (int i = 0; i < TEAMS_SIZE; i++)
+    for (auto i = leauge->begin(); i != leauge->end(); ++i)
     {
-        team = &(*leauge)[i];
-        cout << "Name:" << team->get_name() <<" Losses: " << team->get_losses() << " winings: " << team->get_wins() << " skill lvl: "<<  team->get_skill_lvl() << "\n";
+        cout << "Name:" << i->get_name() <<" Losses: " << i->get_losses() << " winings: " << i->get_wins() << " skill lvl: "<<  i->get_skill_lvl() << "\n";
         // Verify all the names are diffrent
-        assert(find(names.begin(), names.end(), team->get_name()) == names.end());
-        assert(team->get_losses() == 0 && team->get_wins() == 0 && team->get_skill_lvl() != 0);
+        assert(find(names.begin(), names.end(), i->get_name()) == names.end());
+        assert(i->get_losses() == 0 && i->get_wins() == 0 && i->get_skill_lvl() != 0);
     }
 
     Schedule* schedule = new Schedule(leauge);

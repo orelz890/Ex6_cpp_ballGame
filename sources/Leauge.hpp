@@ -13,8 +13,8 @@ public:
     std::string generate_name() const;
 
     Leauge();
-    Leauge(Team* teams, const int size);
-    Leauge(Team* teams);
+    Leauge(Team teams[TEAMS_SIZE], const int size);
+    Leauge(Team teams[TEAMS_SIZE]);
     ~Leauge();
     Leauge(Leauge&& other) noexcept;
 

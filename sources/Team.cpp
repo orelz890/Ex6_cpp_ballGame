@@ -22,11 +22,11 @@ Team::Team(Team&& other) noexcept : Team()
 }
 
 
-Team& Team::operator=(Team&& other) noexcept
-{
-    *this = std::move(other);
-    return *this;
-}
+// Team& Team::operator=(Team&& other) noexcept
+// {
+//     *this = std::move(other);
+//     return *this;
+// }
 
 
 Team::~Team()
@@ -97,7 +97,7 @@ std::string& Team::operator*()
 }
 
 
-std::string Team::get_name() const
+std::string Team::get_name()
 {
     return this->name;
 }

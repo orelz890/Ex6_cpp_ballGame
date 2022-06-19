@@ -18,7 +18,7 @@ public:
     ~Team();
     Team(Team&& other) noexcept;
 
-    Team& operator=(Team&& other) noexcept;
+    // Team& operator=(Team&& other) noexcept;
     Team& operator=(const Team& other);
     bool operator==(const Team& other) const;
     bool operator!=(const Team& other) const;
@@ -28,7 +28,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os , const Team& t);
 
 
-    std::string get_name() const;
+    std::string get_name();
     int get_wins() const;
     int get_losses() const;
     void inc_wins();

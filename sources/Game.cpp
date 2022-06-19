@@ -38,6 +38,8 @@ Game& Game::operator=(const Game& g)
     this->home_team_score = g.home_team_score;
     this->other_team_score = g.other_team_score;
     this->other_Team = g.other_Team;
+    
+    return *this;
 }
 
 Game& Game::operator=(Game&& other) noexcept
