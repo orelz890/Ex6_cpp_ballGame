@@ -32,13 +32,26 @@ Leauge::Leauge(Team* teams, const int size)
 }
 
 
-Leauge::Leauge(Team teams[TEAMS_SIZE]) : Leauge(teams, TEAMS_SIZE) 
+Leauge::Leauge(Team* teams) : Leauge(teams, TEAMS_SIZE) 
 {
 }
 
 
 Leauge::~Leauge()
 {
+}
+
+
+Leauge::Leauge(Leauge&& other) noexcept : Leauge()
+{
+    *this = std::move(other);
+}
+
+
+Leauge& Leauge::operator=(Leauge&& other) noexcept
+{
+    *this = std::move(other);
+    return *this;
 }
 
 
@@ -64,12 +77,11 @@ my_iterator<Leauge,Team> Leauge::end()
 }
 
 
-std::string Leauge::generate_name()
+std::string Leauge::generate_name() const
 {
     std::string ans;
     ans.clear();
     ans += "Team_";
-    ans+= (this->current_size + 'A');
-    // printf("ans = %s\n",ans.c_str());
+    ans+= ((char)this->current_size + 'A');
     return ans;
 }

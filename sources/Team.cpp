@@ -16,19 +16,32 @@ Team::Team() : skill_level(0), wins(0), losses(0)
 }
 
 
+Team::Team(Team&& other) noexcept : Team()
+{
+    *this = std::move(other);
+}
+
+
+Team& Team::operator=(Team&& other) noexcept
+{
+    *this = std::move(other);
+    return *this;
+}
+
+
 Team::~Team()
 {
 
 }
 
 
-int Team::get_wins()
+int Team::get_wins() const
 {
     return this->wins;
 }
 
 
-int Team::get_losses()
+int Team::get_losses() const
 {
     return this->losses;
 }
@@ -54,25 +67,25 @@ Team& Team::operator=(const Team& other)
 }
 
 
-bool Team::operator==(const Team& other)
+bool Team::operator==(const Team& other) const
 {
     return this->skill_level == other.skill_level;
 }
 
 
-bool Team::operator!=(const Team& other)
+bool Team::operator!=(const Team& other) const
 {
     return !(*this == other);
 }
 
 
-bool Team::operator>(const Team& other)
+bool Team::operator>(const Team& other) const
 {
     return this->skill_level > other.skill_level;
 }
 
 
-bool Team::operator<(const Team& other)
+bool Team::operator<(const Team& other) const
 {
     return !((*this == other) || (*this > other));
 }
@@ -84,13 +97,13 @@ std::string& Team::operator*()
 }
 
 
-std::string Team::get_name()
+std::string Team::get_name() const
 {
     return this->name;
 }
 
 
-double Team::get_skill_lvl()
+double Team::get_skill_lvl() const
 {
     return this->skill_level;
 }
@@ -103,9 +116,9 @@ double Team::set_skill_lvl(double skill)
 }
 
 
-double Team::preformance_val()
+double Team::preformance_val() const
 {
-    return this->wins/(this->losses + this->wins);
+    return (double)(this->wins)/((double)(this->losses + this->wins));
 }
 
 

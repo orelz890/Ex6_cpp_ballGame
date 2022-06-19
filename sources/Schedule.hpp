@@ -16,7 +16,7 @@ public:
     ~Schedule();
 
     Leauge* get_leauge();
-    int get_games_counter();
+    int get_games_counter() const;
     std::string& get_oponnent(int round, int game, int team);
     void print_games_schedule();
 

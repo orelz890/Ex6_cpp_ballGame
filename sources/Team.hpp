@@ -16,23 +16,25 @@ public:
     Team(const Team& other);
     Team();
     ~Team();
+    Team(Team&& other) noexcept;
 
+    Team& operator=(Team&& other) noexcept;
     Team& operator=(const Team& other);
-    bool operator==(const Team& other);
-    bool operator!=(const Team& other);
-    bool operator>(const Team& other);
-    bool operator<(const Team& other);
+    bool operator==(const Team& other) const;
+    bool operator!=(const Team& other) const;
+    bool operator>(const Team& other) const;
+    bool operator<(const Team& other) const;
     std::string& operator*();
     friend std::ostream& operator<<(std::ostream& os , const Team& t);
 
 
-    std::string get_name();
-    int get_wins();
-    int get_losses();
+    std::string get_name() const;
+    int get_wins() const;
+    int get_losses() const;
     void inc_wins();
     void inc_losses();
-    double get_skill_lvl();
+    double get_skill_lvl() const;
     double set_skill_lvl(double skill);
 
-    double preformance_val();
+    double preformance_val() const;
 };

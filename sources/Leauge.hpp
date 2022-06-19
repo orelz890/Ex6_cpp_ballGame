@@ -10,16 +10,18 @@ private:
     using Iterator = my_iterator<Leauge,Team>;
 
 public:
-    std::string generate_name();
+    std::string generate_name() const;
 
     Leauge();
     Leauge(Team* teams, const int size);
-    Leauge(Team teams[20]);
+    Leauge(Team* teams);
     ~Leauge();
+    Leauge(Leauge&& other) noexcept;
 
+    Leauge& operator=(Leauge&& other) noexcept;
     Team& operator[](int);
     Iterator begin();
-    Iterator end();
+    static Iterator end();
     // Team* operator++(int);
     // Team* operator++();
 };

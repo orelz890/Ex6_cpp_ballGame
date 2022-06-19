@@ -3,13 +3,16 @@
 #include <iostream>
 #include "Score.hpp"
 
+const int FIFTY = 50;
+const int FIFTYFIVE = 55;
+const int FORTYFIVE = 45;
 
 Score::Score()
 {
     this->flag = true;
-    Leauge* l = new Leauge();
-    Schedule* s = new Schedule(leauge);
-    Score(l,s);
+    this->leauge = new Leauge();
+    this->schedule = new Schedule(leauge);
+    Score(this->leauge,this->schedule);
 }
 
 
@@ -23,6 +26,7 @@ Score::Score(Leauge *l, Schedule* s)
     for (int i = 0; i < TEAMS_SIZE; i++)
     {
         this->game_wins_losses[(*this->leauge)[i].get_name()] = {0,0};
+        this->team_scores_lost[(*this->leauge)[i].get_name()] = {0,0};
     }
     
     for (int  round = 0; round < 2; round++)
@@ -38,10 +42,12 @@ Score::Score(Leauge *l, Schedule* s)
                 std::pair<int, std::pair<int,std::string>> key2;
                 key = {i, home->get_name()};
                 key2 = {round, key};
-                int home_score = (int)(55 + rand()%45);
+                int home_score = (int)(FIFTYFIVE + rand()%FORTYFIVE);
+                this->team_scores_lost[home->get_name()].first += home_score;
                 // Rand is not really random therefore change its pointer pos
                 srand(time(NULL));
-                int opponent_score = (int)(50 + rand()%50);
+                int opponent_score = (int)(FIFTY + rand()%FIFTY);
+                this->team_scores_lost[opponent->get_name()].second += opponent_score;
                 this->games_schedule[key2] = new Game(home, opponent, home_score, opponent_score);
                 
                 // Update the scores
@@ -78,19 +84,52 @@ Score::~Score()
 }
 
 
-int Score::longest_wins_in_a_row()
+Score::Score(Score&& other) noexcept :Score()
+{
+    *this = std::move(other);
+}
+
+
+Score::Score(const Score& other)
+{
+    *this = other;
+}
+
+
+Score& Score::operator=(const Score& other)
+{
+    this->leauge = other.leauge;
+    this->flag = other.flag;
+    this->game_wins_losses = other.game_wins_losses;
+    this->games_schedule = other.games_schedule;
+    this->longest_losses_series = other.longest_losses_series;
+    this->longest_wins_series = other.longest_wins_series;
+    this->schedule = other.schedule;
+    this->team_scores_lost = other.team_scores_lost;
+    return *this;
+}
+
+
+Score& Score::operator=(Score&& other) noexcept
+{
+    *this = std::move(other);
+    return *this;
+}
+
+
+int Score::longest_wins_in_a_row() const 
 {
     return this->longest_wins_series;
 }
 
 
-int Score::longest_losses_in_a_row()
+int Score::longest_losses_in_a_row() const 
 {
     return longest_losses_series;
 }
 
 
-int Score::teams_with_more_wins()
+int Score::teams_with_more_wins() const
 {
     int ans = 0;
     for (int i = 0; i < TEAMS_SIZE; i++)
@@ -110,7 +149,7 @@ bool compereElements(std::pair<std::string, double> e1, std::pair<std::string, d
 }
 
 
-void Score::leading_teams(const int num)
+void Score::leading_teams(int num)
 {
     if (num < 0 || num >= TEAMS_SIZE)
     {
@@ -133,28 +172,53 @@ void Score::leading_teams(const int num)
 }
 
 
-void Score::wining_table()               // not finished
+void Score::wining_table()
 {
+    // Find the longest score & name for preatty output
     int longest_name = 0;
-    for (int i = 0; i < TEAMS_SIZE; i++)
+    int longest_score = 0;
+    for (std::pair<std::string,std::pair<int,int>> a : this->game_wins_losses)
     {
-        int current_name_len = (*this->leauge)[i].get_name().length();
-        if (current_name_len > longest_name)
+        int curr_name_len = a.first.length();
+        if (curr_name_len > longest_name)
         {
-            longest_name = current_name_len;
+            longest_name = curr_name_len;
         }
     }
     longest_name++;
     
-    for (int i = 0; i < TEAMS_SIZE; i++)
+    std::cout << "\n  name" << std::string(abs(longest_name - 4) , ' ') << "| wins - losses\n";
+
+    for (std::pair<std::string,std::pair<int,int>> a : this->game_wins_losses)
     {
-        std::cout << "| " << (*this->leauge)[i].get_name() << "| ";
+        int curr_name_len = a.first.length();
+        std::cout << "| " << a.first << std::string(longest_name - curr_name_len , ' ') <<  "| "
+            << a.second.first - a.second.second << "\n";
     }
-    
 }
 
 
-void basket_scores_minus_losses_table()     // not finished!
+void Score::basket_scores_minus_losses_table()
 {
+    // Find the longest score & name for preatty output
+    int longest_name = 0;
+    int longest_score = 0;
+    for (std::pair<std::string,std::pair<int,int>> a : this->team_scores_lost)
+    {
+        int curr_name_len = a.first.length();
+        if (curr_name_len > longest_name)
+        {
+            longest_name = curr_name_len;
+        }
+    }
+    longest_name++;
+        
+    std::cout << "\n  name" << std::string(abs(longest_name - 4) , ' ') << "| scored - lost\n";
 
+    for (std::pair<std::string,std::pair<int,int>> a : this->team_scores_lost)
+    {
+        int curr_name_len = a.first.length();
+        std::cout << "| " << a.first << std::string(longest_name - curr_name_len , ' ') <<  "| "
+            << a.second.first - a.second.second << "\n";
+    }    
 }

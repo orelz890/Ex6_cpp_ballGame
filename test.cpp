@@ -56,8 +56,11 @@ TEST_CASE("Good tests"){
             CHECK_FALSE((*i).get_skill_lvl() <= 0);
             CHECK_FALSE(i->get_losses() + i->get_wins() <= 0);
         }
+        CHECK_NOTHROW(score->wining_table());
+        CHECK_NOTHROW(score->basket_scores_minus_losses_table());
         
     }// Init check
+
 
     SUBCASE("Bad cases")
     {
@@ -67,5 +70,6 @@ TEST_CASE("Good tests"){
         CHECK_THROWS(score->leading_teams(20));
 
     }
+
 
 }

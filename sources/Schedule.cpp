@@ -45,7 +45,7 @@ std::string& Schedule::get_oponnent(int round, int game, int team)
 }
 
 
-int Schedule::get_games_counter()
+int Schedule::get_games_counter() const
 {
     return this->games_counter;
 }

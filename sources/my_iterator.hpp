@@ -1,5 +1,7 @@
 #pragma once
 
+const int MAX_TEAMS = 20;
+
 template<typename T,typename Y> class my_iterator{
 
     private:
@@ -38,7 +40,7 @@ template<typename T,typename Y> class my_iterator{
 
     my_iterator<T,Y>& operator++(){
         this->pos++;
-        if (this->pos >= 20)
+        if (this->pos >= MAX_TEAMS)
         {
             *this = my_iterator<T,Y>{};
             return *this;
@@ -52,7 +54,7 @@ template<typename T,typename Y> class my_iterator{
     my_iterator<T,Y> operator++(int){
         my_iterator ans = *this;
         this->pos++;
-        if (this->pos >= 20)
+        if (this->pos >= MAX_TEAMS)
         {
             *this = &my_iterator<T,Y>{};
             return *this;
